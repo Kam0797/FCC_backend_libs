@@ -1,6 +1,10 @@
 {
 	"name": "fcc-learn-npm-package-json",
 	"author": "Kam",
+	"description": "FCC_backend_libs",
+	"keywords": ["freecodecamp","backend_libs"],
+	"license": "GNU GPLv3",
+	"version": "0.0.1",
 	"dependencies": {
 		"express": "^4.14.0"
 	},
