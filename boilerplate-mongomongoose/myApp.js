@@ -1,17 +1,71 @@
 require('dotenv').config();
-
+let mongoose = require('mongoose');
 
 let Person;
 
+// creating a schema
+// you can define type in 2 ways as below
+// ref: https://www.freecodecamp.org/news/introduction-to-mongoose-for-mongodb-d2a7aa593c57/
+// for more details
+let personSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  age: Number,
+  favoriteFoods: [String]
+})
+
+Person = mongoose.model('Person',personSchema);
+
+// connecting to db
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+// woah...
+let person = new Person({
+  name: "who-knows",
+  age: 21,
+  favoriteFoods: ["cold-pizza"]
+});
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  person.save((err,data)=> {
+    if (err) return done(err);
+    return done(null, data)
+  });
+  // done(null /*, data*/);
 };
 
+
+// creating multiple records at once... 
+// its sort of cofucious. take care 
+// Model.create() takes 2 args; arrayOfPeople: array of records callback: the usual (err,data){if (err) return done(err) else return done(null,data)}
+let arrayOfPeople = 
+[{
+  name: "sh",
+  age: 22,
+  favoriteFoods: ["none"]
+},
+{
+  name: "kam",
+  age: 21,
+  favoriteFoods: ["some"]
+},
+{
+  name: "man",
+  age: 21,
+  favoriteFoods: ["maybe"]
+}];
 const createManyPeople = (arrayOfPeople, done) => {
-  done(null /*, data*/);
+  Person.create(arrayOfPeople,(err,data)=>{
+    if (err) return done(err);
+    done(null, data);
+});
+  
+  // done(null /*, data*/);
 };
 
 const findPeopleByName = (personName, done) => {
+  
   done(null /*, data*/);
 };
 
