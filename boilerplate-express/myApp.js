@@ -53,7 +53,12 @@ app.get('/word/:echo',(req,res)=> {
 })
 
 // getting query parameter
-// this data goes to req.query object. i was looking at req.params, my bad
+// this data goes to req.query objec
+//
+//
+//
+//
+// t. i was looking at req.params, my bad
 app.get('/name',(req,res) => {
     // console.log('#',req.params)
     res.json({"name":req.query.first+' '+req.query.last});
@@ -66,7 +71,8 @@ app.use(bodyParser.urlencoded({extended:false}));
 // get data from POST requests
 app.post('/name',(req,res)=> {
     // console.log('#',req.body);
-    res.json({name:`${req.body.first} ${req.body.last}`})
+    res.json({name:`${req.body.first} ${req.body.last}`});
+    // console.log(req.headers);
 })
 
 
