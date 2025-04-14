@@ -97,7 +97,6 @@ const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
   Person.findById(personId,(err,data)=> {
     if (err) return done(err);
-    console.log("@@",data);
     data.favoriteFoods.push(foodToAdd);
     data.save((err,data)=> {
       if (err) return done(err);
@@ -110,30 +109,53 @@ const findEditThenSave = (personId, done) => {
 
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
+  Person.findOneAndUpdate({name: personName},{age : 20},{new: true},(err,data)=> {
+    if (err) return done(err);
+    return done(null, data)
+  })
 
-  done(null /*, data*/);
+  // done(null /*, data*/);
 };
 
 const removeById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findByIdAndRemove(personId,(err,data)=> {
+    if (err) return done(err);
+    return done(null, data);
+  })
+  // done(null /*, data*/);
 };
 
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
+  Person.deleteMany({name: nameToRemove},(err, data)=> {
+    if (err) return done(err);
+    return done(null, data);
+  })
 
-  done(null /*, data*/);
+  // done(null /*, data*/);
 };
+// Person.remove({name: nameToRemove},(err, data)=> {
+//   if (err) return done(err);
+//   return done(null, data);
+// })
+// this perfectly worked for removeManyPeople() -also the instructed method; now depreciated
+// use Model.deleteMany() instead of Moddel.remove() //good job!
 
 const queryChain = (done) => {
   const foodToSearch = "burrito";
+  Person.find({favoriteFoods: foodToSearch}).sort("name").limit(2).select("-_id").exec((err,data)=> {
+    if (err) return done(err);
+    return done(null, data);
+  })
 
-  done(null /*, data*/);
+  // done(null /*, data*/);
 };
 
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !
  */
 
+// Yeah, you made it... have a drink!**********
 //----- **DO NOT EDIT BELOW THIS LINE** ----------------------------------
 
 exports.PersonModel = Person;
