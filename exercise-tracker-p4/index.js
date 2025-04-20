@@ -74,7 +74,13 @@ async function postExercise(req,res) {
     date: exer_date
   });
   console.log(exercise);
-  return res.json(exercise);
+  return res.json({
+    _id: exercise.userid,
+    username: exercise.username,
+    description: exercise.description,
+    duration: exercise.duration,
+    date: exercise.date
+  });
     
 }
 
@@ -94,6 +100,10 @@ async function getLogs(req,res) {
     console.log('noq');
     logs = await Logs.find({userid: req.params._id},{__v:0,_id:0});
   }
+  for (let x of logs) {
+    logs.date = new Date(logs.date).toDateString();
+  }
+  console.log(logs);
   return res.json({
     _id: user._id,
     username: user.username,
