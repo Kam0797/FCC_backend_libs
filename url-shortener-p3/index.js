@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 app.use(cors({optionsSuccessStatus: 200}));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended:false}));
-console.log(process.env.MONGO_URI);
+
 mongoose.connect(process.env.MONGO_URI);
 const UrlSchema = new mongoose.Schema({
   url: String,
