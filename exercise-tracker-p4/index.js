@@ -68,6 +68,7 @@ async function postExercise(req,res) {
 
   let exercise = await Logs.create({
     userid: req.params._id,
+    username: userExists.username,
     description: req.body.description,
     duration: req.body.duration,
     date: exer_date
@@ -96,7 +97,8 @@ async function getLogs(req,res) {
   return res.json({
     _id: user._id,
     username: user.username,
-    logs: logs
+    count: logs.length,
+    log: logs
   })
 }
 
