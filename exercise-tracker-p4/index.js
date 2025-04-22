@@ -91,18 +91,28 @@ async function getLogs(req,res) {
   let {from, to, limit} = req.query;
   console.log('foo',from,to,limit)
   if(from && to && limit) {
+    limit = (limit)?limit:null;
+    from = (from)?{date: {$lte: new Date(from)}}:{};
+    to = (to)?{date: {$gte: new Date(to)}}:{};
     console.log('qq');
     logs = await Logs.find({$and: [{userid: req.params._id},
-                                {date: {$lte: new Date(from)}},
-                                {date: {$gte: new Date(to)}}]},{__v:0,_id:0}).limit(limit);
+                                  from,
+                                  to]},{__v:0,_id:0}).limit(limit);
     }
+    // logs = await Logs.find({$and: [{userid: req.params._id},
+    //                             {date: {$lte: new Date(from)}},
+    //                             {date: {$gte: new Date(to)}}]},{__v:0,_id:0}).limit(limit);
+    // }
   else {
     console.log('noq');
     logs = await Logs.find({userid: req.params._id},{__v:0,_id:0});
   }
-  for (let x of logs) {
-    logs.date = new Date(logs.date).toDateString();
-  }
+  console.log(logs);
+  logs = logs.map(log=> {
+    let obj = log.toObject();
+    obj.date = new Date(obj.date).toDateString();
+    return obj;
+  })
   console.log(logs);
   return res.json({
     _id: user._id,
